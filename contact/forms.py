@@ -1,4 +1,7 @@
 from django import forms
+
+"""Нужно в файле fields заменить стандартный 'from django.utils.translation import ugettext_lazy as _' на 
+'from django.utils.translation import gettext_lazy as _' и тогда все заработает"""
 from snowpenguin.django.recaptcha3.fields import ReCaptchaField
 from contact.models import Contact
 

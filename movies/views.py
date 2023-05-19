@@ -8,49 +8,27 @@ from movies.forms import ReviewForm, RatingForm
 
 
 class GenreYear:
-    """Жанры и года выхода фильмов"""
+    """Жанры и годы выхода фильмов"""
     def get_genres(self):
         return Genre.objects.all()
 
     def get_years(self):
-        # return Movie.objects.filter(draft=False)
         return Movie.objects.filter(draft=False).values("year")
-        # return Movie.objects.filter(draft=False).values_list("year")
 
 
-#
-# class MoviesView(View):
-#     """Список фильмов"""
-#     def get(self, request):
-#         movies = Movie.objects.all()
-#         return render(request, "movies/movie_list.html", {"movie_list": movies})
 class MoviesView(GenreYear, ListView):
     """Список фильмов"""
     model = Movie
     queryset = Movie.objects.filter(draft=False)
-    # template_name = "movies/movie_list.html"
     paginate_by = 2
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super().get_context_data(*args, **kwargs)
-    #     context['categories'] = Category.objects.all()
-    #     return context
 
-# class MovieDetailView(View):
-#     """Полное описание фильма"""
-#     def get(self, request, slug):
-#         movie = Movie.objects.get(url=slug)
-#         return render(request, "movies/movie_detail.html", {"movie": movie})
 class MovieDetailView(GenreYear, DetailView):
     """Полное описание фильма"""
     model = Movie
     queryset = Movie.objects.filter(draft=False)
     slug_field = "url"
 
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super().get_context_data(*args, **kwargs)
-    #     context['categories'] = Category.objects.all()
-    #     return context
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -82,11 +60,7 @@ class ActorView(GenreYear, DetailView):
 class FilterMoviesView(GenreYear, ListView):
     """Фильтр фильмов"""
     paginate_by = 2
-    # def get_queryset(self):
-    #     queryset = Movie.objects.filter(
-    #         Q(year__in=self.request.GET.getlist("year")) |
-    #         Q(genres__in=self.request.GET.getlist("genre"))
-    #     )
+
     def get_queryset(self):
         queryset = Movie.objects.filter(
             Q(year__in=self.request.GET.getlist("year")) |

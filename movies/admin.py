@@ -9,22 +9,20 @@ from modeltranslation.admin import TranslationAdmin
 
 class MovieAdminForm(forms.ModelForm):
     """Форма с виджетом ckeditor"""
-    # description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
     description_ru = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
     description_en = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+
     class Meta:
         model = Movie
         fields = '__all__'
 
 
-
-
-# admin.site.register(Category, CategoryAdmin)
 @admin.register(Category)
 class CategoryAdmin(TranslationAdmin):
     """Категории"""
     list_display = ("id", "name", "url")
     list_display_links = ("name",)
+
 
 class ReviewInline(admin.TabularInline):
     """Отзывы на странице фильма"""
@@ -32,11 +30,12 @@ class ReviewInline(admin.TabularInline):
     extra = 1
     readonly_fields = ("name", "email")
 
-# admin.site.register(Genre)
+
 @admin.register(Genre)
 class GenreAdmin(TranslationAdmin):
     """Жанры"""
     list_display = ("name", "url")
+
 
 class MovieShotsInline(admin.TabularInline):
     model = MovieShots
@@ -48,14 +47,13 @@ class MovieShotsInline(admin.TabularInline):
 
     get_image.short_description = "Изображение"
 
-# admin.site.register(Movie)
+
 @admin.register(Movie)
 class MovieAdmin(TranslationAdmin):
     """Фильмы"""
     list_display = ("title", "category", "url", "draft")
     list_filter = ("category", "year")
     search_fields = ("title", "category__name")
-    # inlines = [ReviewInline]
     inlines = [MovieShotsInline, ReviewInline]
     save_on_top = True
     save_as = True
@@ -108,11 +106,10 @@ class MovieAdmin(TranslationAdmin):
 
     get_image.short_description = "Постер"
 
-# admin.site.register(MovieShots)
+
 @admin.register(MovieShots)
 class MovieShotsAdmin(TranslationAdmin):
     """Кадры из фильма"""
-    # list_display = ("title", "movie")
     list_display = ("title", "movie", "get_image")
     readonly_fields = ("get_image",)
 
@@ -121,11 +118,10 @@ class MovieShotsAdmin(TranslationAdmin):
 
     get_image.short_description = "Изображение"
 
-# admin.site.register(Actor)
+
 @admin.register(Actor)
 class ActorAdmin(TranslationAdmin):
     """Актеры"""
-    # list_display = ("name", "age", "image")
     list_display = ("name", "age", "get_image")
     readonly_fields = ("get_image",)
 
@@ -134,7 +130,7 @@ class ActorAdmin(TranslationAdmin):
 
     get_image.short_description = "Изображение"
 
-# admin.site.register(Rating)
+
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
     """Рейтинг"""
@@ -142,7 +138,7 @@ class RatingAdmin(admin.ModelAdmin):
 
 admin.site.register(RatingStar)
 
-# admin.site.register(Reviews)
+
 @admin.register(Reviews)
 class ReviewAdmin(admin.ModelAdmin):
     """Отзывы"""

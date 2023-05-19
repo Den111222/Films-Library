@@ -239,7 +239,7 @@ RECAPTCHA_SCORE_THRESHOLD = 0.5
 SITE_ID = 1
 
 # Provider specific settings
-# Нужно попробовать попозиться потом с google, так не понятно
+# Нужно попробовать повозиться потом с google, так не понятно
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         # For each OAuth based provider, either add a ``SocialApp``

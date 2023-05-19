@@ -20,22 +20,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-# urlpatterns = [
-#     # path('contact/', include('contact.urls')),
-#     path('admin/', admin.site.urls),
-#     path('i18n/', include('django.conf.urls.i18n')),
-#     path('', include('movies.urls')),
-#     path('ckeditor/', include('ckeditor_uploader.urls')),
-#     path('pages/', include('django.contrib.flatpages.urls')),
-#
-# ]
-#
-# urlpatterns += i18n_patterns(
-#     path('pages/', include('django.contrib.flatpages.urls')),
-#     # path('contact/', include("contact.urls")),
-#     path("", include("movies.urls")),
-# )
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
