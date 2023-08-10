@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!one-65-qb0&15t5$jrsb5h#-hx7lo8yftbdr@_*#n#t@i*kt@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost',]
 
 
 # Application definition
@@ -70,8 +70,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
-        # 'DIRS': os.path.join(BASE_DIR, 'templates'),
-
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -235,6 +233,7 @@ RECAPTCHA_PUBLIC_KEY = "6LcV7hcmAAAAAIOAw60oWXND2kXAwnGJz2TlzEo0"
 RECAPTCHA_PRIVATE_KEY = "6LcV7hcmAAAAAMcavB8glBNTESAf-YuR0GYpUvPg"
 RECAPTCHA_DEFAULT_ACTION = 'generic'
 RECAPTCHA_SCORE_THRESHOLD = 0.5
+# RECAPTCHA_FRONTEND_PROXY_HOST = 'some host'
 
 SITE_ID = 1
 
@@ -252,3 +251,31 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+# https://habr.com/ru/articles/490040/
+#Если поднять celery через docker тогда обращение через имя
+#Если поднимать celery на локальном хосте тогда через localhost
+CELERY_BROKER_URL = 'redis://demo_app_redis:6379'
+CELERY_RESULT_BACKEND = 'redis://demo_app_redis:6379'
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+#Так то ХЗ что это, но в документации написано чтобы скрыть ошибки
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Amsterdam'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# GMAIL CONFIG
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+#test@gmail.com
+EMAIL_HOST_USER = 'test@gmail.com'
+EMAIL_HOST_PASSWORD = 'pass'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'TestSite Team <noreply@example.com>'

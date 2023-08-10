@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    restart: always
+    container_name: 'demo_app_django'
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - '8000:8000'
+  redis:
+    image: redis:alpine3.18
+    restart: always
+    container_name: 'demo_app_redis'
+    command: redis-server
+    ports:
+      - '6379:6379'
+#  rabbitmq:
+#    build: .
+#    container_name: 'demo_app_rabbitmq'
+#    image: rabbitmq:3.11.4-management-alpine
+#    ports:
+#      - '5672:5672'
+#      - '15672:15672'
+  celery:
+    build: .
+    container_name: 'demo_app_celery'
+#    command: celery --app core worker --beat --scheduler django --loglevel=debug
+    command: celery --app core worker --loglevel INFO
+    volumes:
+      - .:/code
+    links:
+      - redis
+#      - rabbitmq
+    depends_on:
+      - web
+      - redis
+#      - rabbitmq
